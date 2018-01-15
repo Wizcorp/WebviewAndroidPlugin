@@ -27,20 +27,17 @@ public class WebViewActivity extends Activity {
         webView.getSettings().setJavaScriptEnabled(true);
 
         setContentView(webView);
-//        webView.setOnTouchListener(new View.OnTouchListener(){
-//
-//            @Override
-//            public boolean onTouch(View view, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-//                    MainActivity.CallBackToUnity();
-//                    onBackPressed();
-//                    return true;
-//                }
-//
-//                return false;
-//            }
-//        });
 
-        webView.loadUrl("http://www.google.com");
+        webView.loadUrl(MainActivity.Url);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            MainActivity.CallBackToUnity();
+            super.onBackPressed();
+        }
     }
 }

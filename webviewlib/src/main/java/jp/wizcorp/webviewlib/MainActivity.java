@@ -17,16 +17,15 @@ public class MainActivity extends UnityPlayerActivity {
 
     public static String GameObject;
     public static String MethodName;
+    public static String Message;
+    public static String Url = "https://wizcorp.jp/";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d("MainActivity", "onCreate called!");
-    }
+    public void SetupCallBack(String gameObject, String methodName, String message) {
+        Log.d("MainActivity", "SetupCallBack");
 
-    public void Initialize(String gameObject, String methodName) {
         GameObject = gameObject;
         MethodName = methodName;
+        Message = message;
     }
 
     public void OpenWebView() {
@@ -36,12 +35,14 @@ public class MainActivity extends UnityPlayerActivity {
     }
 
     public void OpenWebView(String url) {
+        Url = url;
+
         final Context context = this;
         Intent intent = new Intent(context, WebViewActivity.class);
         startActivity(intent);
     }
 
-    public void shareText(String subject, String body) {
+    public void ShareText(String subject, String body) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
@@ -50,6 +51,12 @@ public class MainActivity extends UnityPlayerActivity {
     }
 
     public static void CallBackToUnity() {
-        UnityPlayer.UnitySendMessage(GameObject, MethodName, "CallBack");
+        Log.d("MainActivity", "CallbackToUnity");
+        UnityPlayer.UnitySendMessage(GameObject, MethodName, Message);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 }
